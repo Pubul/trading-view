@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多个TradingView图表示例</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 10px;
+            background-color: #f4f4f4;
+        }
+        .chart-container {
+            display: inline-block; /* 允许换行 */
+            width: calc(33.33% - 10px); /* 自适应宽度，默认一行显示三个 */
+            min-width: 250px; /* 最低宽度 */
+            height: calc(50vh - 20px); /* 自适应高度，最小高度为300px */
+            min-height: 300px; /* 最低高度 */
+            margin: 5px; /* 图表间距 */
+            vertical-align: top; /* 顶部对齐 */
+        }
+        @media (max-width: 900px) {
+            .chart-container {
+                width: calc(50% - 10px); /* 当屏幕宽度小于900px时，一行显示两个图表 */
+            }
+        }
+        @media (max-width: 600px) {
+            .chart-container {
+                width: calc(100% - 10px); /* 当屏幕宽度小于600px时，一行显示一个图表 */
+            }
+        }
+    </style>
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+</head>
+<body>
+    <div id="charts-container"></div>
+
+    <script type="text/javascript">
+        function createChart(containerId, symbol) {
+            new TradingView.widget({
+                "container_id": containerId,
+                "autosize": true,
+                "symbol": symbol,
+                "interval": "60", // 小时单位
+                "timezone": Intl.DateTimeFormat().resolvedOptions().timeZone, // 使用系统的时区
+                "theme": window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light", // 根据浏览器设置选择主题
+                "style": "1",
+                "locale": "zh",
+                "toolbar_bg": "#f1f3f6",
+                "enable_publishing": false,
+                "allow_symbol_change": true,
+                "hideideas": true,
+                "disabled_features": [
+                    "header_symbol_search",       // 隐藏顶部搜索框
+                    "header_compare",             // 隐藏比较按钮
+                    "symbol_search_hot_key",      // 隐藏符号搜索热键
+                    "timeframes_toolbar",         // 隐藏时间框工具栏
+                    "left_toolbar",               // 隐藏左侧工具栏
+                    "use_localstorage_for_settings",// 禁用本地存储设置
+                    "study_templates",            // 隐藏指标模板
+                    "save_chart_properties_to_local_storage", // 禁用保存图表属性到本地存储
+                    "snapshot",                   // 隐藏“Take a Snapshot”功能
+                    "show_right_widgets_panel_by_default", // 默认不显示右侧小部件面板
+                    "items_favoriting",           // 隐藏收藏夹图标
+                    "hide_price_scale_global_last_bar_value", // 隐藏价格比例尺上的最后一根柱子的全局值标签
+                    "header_saveload",            // 隐藏保存加载图表
+                    "header_settings",            // 隐藏设置按钮
+                    "header_fullscreen_button",   // 隐藏全屏按钮
+                    "header_undo_redo",           // 隐藏撤销重做按钮
+                    "header_interval_dialog_button", // 隐藏时间间隔对话框按钮
+                    "control_bar",                // 隐藏控制栏
+                    "pane_context_menu",          // 隐藏图表面板的右键菜单
+                    "legend_context_menu"         // 隐藏图例的右键菜单
+                ],
+                "overrides": {
+                    "mainSeriesProperties.style": 1 // 折线图样式
+                }
+            });
+        }
+
+        // 创建各个图表
+        const charts = [
+            { id: "chart_container_tsla", symbol: "NASDAQ:TSLA" },
+            { id: "chart_container_nvda", symbol: "NASDAQ:NVDA" },
+            { id: "chart_container_gold", symbol: "OANDA:XAUUSD" },
+            { id: "chart_container_btc", symbol: "BITFINEX:BTCUSD" },
+            { id: "chart_container_eth", symbol: "BITFINEX:ETHUSD" },
+            { id: "chart_container_doge", symbol: "BINANCE:DOGEUSDT" }
+        ];
+
+        charts.forEach(chart => {
+            const container = document.createElement("div");
+            container.id = chart.id;
+            container.className = "chart-container";
+            document.getElementById("charts-container").appendChild(container);
+            createChart(chart.id, chart.symbol);
+        });
+    </script>
+</body>
+</html>
