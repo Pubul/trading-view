@@ -12,7 +12,7 @@
         }
         .chart-container {
             display: inline-block; /* 允许换行 */
-            width: calc(20% - 10px); /* 自适应宽度，默认一行显示三个 */
+            width: calc(25% - 10px); /* 自适应宽度，默认一行显示三个 */
             min-width: 250px; /* 最低宽度 */
             height: calc(50vh - 20px); /* 自适应高度，最小高度为300px */
             min-height: 300px; /* 最低高度 */
@@ -41,7 +41,7 @@
                 "container_id": containerId,
                 "autosize": true,
                 "symbol": symbol,
-                "interval": "60", // 小时单位
+                "interval": "1", // 小时单位
                 "timezone": Intl.DateTimeFormat().resolvedOptions().timeZone, // 使用系统的时区
                 "theme": window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light", // 根据浏览器设置选择主题
                 "style": "1",
